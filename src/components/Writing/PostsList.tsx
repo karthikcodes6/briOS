@@ -2,7 +2,6 @@ import { useRouter } from 'next/router'
 import * as React from 'react'
 
 import { ListContainer } from '~/components/ListDetail/ListContainer'
-import { useGetPostsQuery } from '~/graphql/types.generated'
 
 import { LoadingSpinner } from '../LoadingSpinner'
 import { PostListItem } from './PostListItem'
@@ -18,38 +17,6 @@ export function PostsList() {
   const [filter, setFilter] = React.useState('published')
   let [scrollContainerRef, setScrollContainerRef] = React.useState(null)
 
-  const variables =
-    filter === 'published'
-      ? { filter: { published: true } }
-      : { filter: { published: false } }
-
-  const { data, error, loading, refetch } = useGetPostsQuery({ variables })
-
-  React.useEffect(() => {
-    refetch()
-  }, [filter])
-
-  if (error) {
-    return (
-      <ListContainer onRef={setScrollContainerRef}>
-        <div />
-      </ListContainer>
-    )
-  }
-
-  if (loading && !data?.posts) {
-    return (
-      <ListContainer onRef={setScrollContainerRef}>
-        <WritingTitlebar scrollContainerRef={scrollContainerRef} />
-        <div className="flex items-center justify-center flex-1">
-          <LoadingSpinner />
-        </div>
-      </ListContainer>
-    )
-  }
-
-  const { posts } = data
-
   const defaultContextValue = {
     filter,
     setFilter,
@@ -61,7 +28,7 @@ export function PostsList() {
         <WritingTitlebar scrollContainerRef={scrollContainerRef} />
 
         <div className="lg:p-3 lg:space-y-1">
-          {posts.map((post) => {
+          {[{ id: '234', slug: '33-34sdfdsf' }].map((post) => {
             const active = router.query?.slug === post.slug
 
             return <PostListItem key={post.id} post={post} active={active} />

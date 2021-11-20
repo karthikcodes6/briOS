@@ -2,10 +2,9 @@ import { NextSeo } from 'next-seo'
 import * as React from 'react'
 
 import { baseUrl } from '~/config/seo'
-import { Post } from '~/graphql/types.generated'
 
 interface Props {
-  post: Post
+  post: any
 }
 
 export function PostSEO({ post }: Props) {
